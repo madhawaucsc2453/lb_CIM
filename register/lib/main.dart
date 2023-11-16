@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:register/app/app.bottomsheets.dart';
-import 'package:register/app/app.dialogs.dart';
-import 'package:register/app/app.locator.dart';
-import 'package:register/app/app.router.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:register/customStepper.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await setupLocator();
-  setupDialogUi();
-  setupBottomSheetUi();
-  runApp(const MainApp());
+void main() {
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: Routes.startupView,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      navigatorKey: StackedService.navigatorKey,
-      navigatorObservers: [
-        StackedService.routeObserver,
-      ],
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: const CustomStepper(),
     );
   }
 }
