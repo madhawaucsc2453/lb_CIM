@@ -67,15 +67,24 @@ class _CustomStepperState extends State<CustomStepper> {
     cityController = TextEditingController();
 
     // Add listeners to controllers
-    firstNameController.addListener(() => _updateProgress(0, 'firstName', _isFieldValid(firstNameController.text)));
-    lastNameController.addListener(() => _updateProgress(0, 'lastName', _isFieldValid(lastNameController.text)));
-    emailController.addListener(() => _updateProgress(0, 'email', _isFieldValid(emailController.text)));
-    phoneController.addListener(() => _updateProgress(0, 'phone', _isFieldValid(phoneController.text)));
-    passwordController.addListener(() => _updateProgress(1, 'password', _isFieldValid(passwordController.text)));
-    addressController.addListener(() => _updateProgress(2, 'address', _isFieldValid(addressController.text)));
-    confirmPasswordController.addListener(() => _updateProgress(1, 'confirm password', _isFieldValid(confirmPasswordController.text)));
-    provinceController.addListener(() => _updateProgress(2, 'province', _isFieldValid(provinceController.text)));
-    cityController.addListener(() => _updateProgress(2, 'city', _isFieldValid(cityController.text)));
+    firstNameController.addListener(() => _updateProgress(
+        0, 'firstName', _isFieldValid(firstNameController.text)));
+    lastNameController.addListener(() =>
+        _updateProgress(0, 'lastName', _isFieldValid(lastNameController.text)));
+    emailController.addListener(
+        () => _updateProgress(0, 'email', _isFieldValid(emailController.text)));
+    phoneController.addListener(
+        () => _updateProgress(0, 'phone', _isFieldValid(phoneController.text)));
+    passwordController.addListener(() =>
+        _updateProgress(1, 'password', _isFieldValid(passwordController.text)));
+    addressController.addListener(() =>
+        _updateProgress(2, 'address', _isFieldValid(addressController.text)));
+    confirmPasswordController.addListener(() => _updateProgress(
+        1, 'confirm password', _isFieldValid(confirmPasswordController.text)));
+    provinceController.addListener(() =>
+        _updateProgress(2, 'province', _isFieldValid(provinceController.text)));
+    cityController.addListener(
+        () => _updateProgress(2, 'city', _isFieldValid(cityController.text)));
   }
 
   double _isFieldValid(String value) {
@@ -107,7 +116,8 @@ class _CustomStepperState extends State<CustomStepper> {
 
   double calculatePageProgress(int index) {
     int totalFields = _formCompletion[index]?.length ?? 0;
-    double filledFields = _formCompletion[index]?.values.reduce((a, b) => a + b) ?? 0.0;
+    double filledFields =
+        _formCompletion[index]?.values.reduce((a, b) => a + b) ?? 0.0;
 
     return filledFields / totalFields;
   }
@@ -145,44 +155,46 @@ class _CustomStepperState extends State<CustomStepper> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'CUSTOM STEPPER',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  StepperComponent(
-                    currentIndex: _currentIndex,
-                    index: 0,
-                    onTap: () => _goToPage(0),
-                    progress: calculatePageProgress(0),
-                  ),
-                  StepperComponent(
-                    currentIndex: _currentIndex,
-                    index: 1,
-                    onTap: () => _goToPage(1),
-                    progress: calculatePageProgress(1),
-                  ),
-                  StepperComponent(
-                    currentIndex: _currentIndex,
-                    index: 2,
-                    onTap: () {
-                      _goToPage(2);
-                    },
-                    progress: calculatePageProgress(2),
-                  ),
-                ],
+            const SizedBox(
+              height: 10,
+            ),
+            const Image(
+              image: AssetImage('assets/images/images.png'),
+              height: 100,
+              width: 100,
+            ),
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StepperComponent(
+                      currentIndex: _currentIndex,
+                      index: 0,
+                      onTap: () => _goToPage(0),
+                      progress: calculatePageProgress(0),
+                    ),
+                    StepperComponent(
+                      currentIndex: _currentIndex,
+                      index: 1,
+                      onTap: () => _goToPage(1),
+                      progress: calculatePageProgress(1),
+                    ),
+                    StepperComponent(
+                      currentIndex: _currentIndex,
+                      index: 2,
+                      onTap: () {
+                        _goToPage(2);
+                      },
+                      progress: calculatePageProgress(2),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -198,13 +210,12 @@ class _CustomStepperState extends State<CustomStepper> {
                         height: constraints.maxHeight,
                         child: Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               // Content for each page
                               _buildPageContent(index),
                               ElevatedButton(
                                 onPressed: _currentIndex < 2 ? _submit : null,
-                                child: const Text('Submit'),
+                                child: const Text('Next'),
                               ),
                               const SizedBox(height: 10),
                               Text(
@@ -384,55 +395,81 @@ class StepperComponent extends StatefulWidget {
 class _StepperComponentState extends State<StepperComponent> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
+              Container(
+                child: widget.index == 0
+                    ? Expanded(
+                        child: Container(height: 5, color: Colors.pink),
+                      )
+                    : Expanded(
+                        child: Container(
+                          height: 5,
+                          color: widget.currentIndex >= widget.index
+                              ? Colors.pink
+                              : Colors.black12,
+                        ),
+                      ),
+              ),
               GestureDetector(
                 onTap: widget.onTap,
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: width * 0.1,
+                  height: height * 0.05,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    
-                    color: widget.progress == 1.0 ? Colors.pink : widget.currentIndex >= widget.index ? const Color.fromARGB(255, 228, 184, 198) : Colors.grey,
+                    color: widget.progress == 1.0
+                        ? Colors.pink
+                        : widget.currentIndex >= widget.index
+                            ? const Color.fromRGBO(228, 184, 198, 1)
+                            : Colors.grey,
                     border: Border.all(
-                      color: widget.currentIndex >= widget.index ? Colors.pink : Colors.black12,
+                      color: widget.currentIndex >= widget.index
+                          ? Colors.pink
+                          : Colors.black12,
                     ),
                   ),
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        width: 60.0,
-                        height: 60.0,
-                        child: CircularProgressIndicator(
-                          value: widget.progress,
-                          strokeWidth: 3.0,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            widget.progress == 1.0 ? Colors.pink : Colors.pink,
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          width: width * 0.1,
+                          height: height * 0.05,
+                          child: CircularProgressIndicator(
+                            value: widget.progress,
+                            strokeWidth: 3.0,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              widget.progress == 1.0
+                                  ? Colors.pink
+                                  : Colors.pink,
+                            ),
                           ),
                         ),
-                      ),
-                      Center(
-                        child: Text(
-                          '${widget.index + 1}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                        Center(
+                          child: Text(
+                            '${widget.index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
               Expanded(
                 child: Container(
-                  height: 8,
-                  color: widget.currentIndex >= widget.index + 1 ? Colors.pink : Colors.black12,
+                  height: 5,
+                  color: widget.currentIndex >= widget.index + 1
+                      ? Colors.pink
+                      : Colors.black12,
                 ),
               ),
             ],
@@ -442,4 +479,3 @@ class _StepperComponentState extends State<StepperComponent> {
     );
   }
 }
-
