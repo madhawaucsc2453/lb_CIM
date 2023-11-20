@@ -162,8 +162,8 @@ class _CustomStepperState extends State<CustomStepper> {
             ),
             Center(
               child: Container(
-                margin: const EdgeInsets.only(top: 30),
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
