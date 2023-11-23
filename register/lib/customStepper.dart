@@ -99,6 +99,9 @@ class _CustomStepperState extends State<CustomStepper> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Center(
                   child: Container(
           
