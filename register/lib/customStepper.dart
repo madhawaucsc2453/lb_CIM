@@ -22,6 +22,12 @@ class _CustomStepperState extends State<CustomStepper> {
     1: {'password': '', 'confirmPassword': '', 'securityQuestion': ''},
     2: {'address': '', 'city': '', 'state': '', 'zip': ''},
   };
+  final List<String> _pageTitles = [
+    'Customer Details',
+    'Security Details',
+    'Other Details',
+  ];
+
 
   double calculatePageProgress(int index) {
     int totalFields = _formData[index]?.length ?? 0;
@@ -61,70 +67,92 @@ class _CustomStepperState extends State<CustomStepper> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      
       child: Scaffold(
-        body: PageStorage(
-          bucket: PageStorageBucket(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              const Image(
-                image: AssetImage('assets/images/images.png'),
-                height: 100,
-                width: 100,
-              ),
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      3,
-                      (index) => StepperComponent(
-                        currentIndex: _currentIndex,
-                        index: index,
-                        onTap: () => _goToPage(index),
-                        progress: calculatePageProgress(index),
+        
+        body: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: PageStorage(
+            
+            bucket: PageStorageBucket(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                const Image(
+                  image: AssetImage('assets/images/images.png'),
+                  height: 100,
+                  width: 100,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  //set index name
+                  child: Text(
+                    _pageTitles[_currentIndex],
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Container(
+          
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        3,
+                        (index) => StepperComponent(
+                          currentIndex: _currentIndex,
+                          index: index,
+                          onTap: () => _goToPage(index),
+                          progress: calculatePageProgress(index),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return PageView.builder(
-                      controller: _pageController,
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight,
-                          child: Center(
-                            child: Column(
-                              children: [
-                                // Content for each page
-                                _buildPageContent(index, constraints),
-
-                                Text(
-                                  'Progress: ${calculatePageProgress(index) * 100}%',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return PageView.builder(
+                        controller: _pageController,
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                            child: SingleChildScrollView(
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    // Content for each page
+                                    _buildPageContent(index, constraints),
+                                        
+                                    Text(
+                                      'Progress: ${calculatePageProgress(index) * 100}%',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

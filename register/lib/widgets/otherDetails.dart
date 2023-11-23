@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:flutter/material.dart';
 
 class OtherDetails extends StatefulWidget {
@@ -35,55 +37,52 @@ class _OtherDetailsState extends State<OtherDetails> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          'Other Details',
-          style: TextStyle(fontSize: 24.0),
-        ),
+       const SizedBox(height: 16.0,), 
         TextFormField(
           controller: addressController,
-          decoration: InputDecoration(labelText: 'Address'),
+          decoration: const InputDecoration(labelText: 'Address'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('address', value);
           },
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         TextFormField(
           controller: cityController,
-          decoration: InputDecoration(labelText: 'City'),
+          decoration: const InputDecoration(labelText: 'City'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('city', value);
           },
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         TextFormField(
           controller: stateController,
-          decoration: InputDecoration(labelText: 'State'),
+          decoration: const InputDecoration(labelText: 'State'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('state', value);
           },
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         TextFormField(
           controller: zipController,
-          decoration: InputDecoration(labelText: 'Zip'),
+          decoration: const InputDecoration(labelText: 'Zip'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('zip', value);
           },
         ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
         ElevatedButton(
           onPressed: () {
             widget.onNext();
           },
-          child: Text('Next'),
+          child: const Text('Next'),
         ),
         // Add more form fields as needed
       ],

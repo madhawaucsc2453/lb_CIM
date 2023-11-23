@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:flutter/material.dart';
 
 class CustomerDetails extends StatefulWidget {
@@ -15,7 +17,7 @@ class CustomerDetails extends StatefulWidget {
 }
 
 class _CustomerDetailsState extends State<CustomerDetails> {
-  // Add your form fields and related logic here
+  
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -30,54 +32,52 @@ class _CustomerDetailsState extends State<CustomerDetails> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Customer Details',
-          style: TextStyle(fontSize: 24.0),
-        ),
-        TextFormField(
-          controller: firstNameController,
-          decoration: InputDecoration(labelText: 'First Name'),
-          onChanged: (value) {
-            // Add your validation logic if needed
-           
-            widget.onFieldChanged('firstName',value);
-          },
-        ),
-        TextFormField(
-          controller: lastNameController,
-          decoration: InputDecoration(labelText: 'Last Name'),
-          onChanged: (value) {
-            // Add your validation logic if needed
-            widget.onFieldChanged('lastName',value);
-          },
-        ),
-        SizedBox(height: 16.0),
-        TextFormField(
-          decoration: InputDecoration(labelText: 'Email'),
-          onChanged: (value) {
-            // Add your validation logic if needed
+    return SingleChildScrollView(
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(height: 16.0,), 
+          TextFormField(
+            controller: firstNameController,
+            decoration: const InputDecoration(labelText: 'First Name'),
+            onChanged: (value) {
+              widget.onFieldChanged('firstName',value);
+            },
+          ),
+          TextFormField(
+            controller: lastNameController,
+            decoration: const InputDecoration(labelText: 'Last Name'),
+            onChanged: (value) {
+              
+              widget.onFieldChanged('lastName',value);
+            },
+          ),
+          const SizedBox(height: 16.0),
+          TextFormField(
+            controller: emailController,
+            decoration: const InputDecoration(labelText: 'Email'),
+            onChanged: (value) {
             widget.onFieldChanged('email',value);
-          },
-        ),
-        SizedBox(height: 16.0),
-        TextFormField(
-          decoration: InputDecoration(labelText: 'Phone'),
-          onChanged: (value) {
-            // Add your validation logic if needed
-            widget.onFieldChanged('phone',value);
-          }),
-           SizedBox(height: 16.0),
-        ElevatedButton(
-          onPressed: () {
-            widget.onNext();
-          },
-          child: Text('Next'),
-        ),
-        // Add more form fields as needed
-      ],
+            },
+          ),
+          const SizedBox(height: 16.0),
+          TextFormField(
+            controller: phoneController,
+            decoration: const InputDecoration(labelText: 'Phone'),
+            onChanged: (value) {
+              widget.onFieldChanged('phone',value);
+            }),
+             const SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              widget.onNext();
+            },
+            child: const Text('Next'),
+          ),
+          // Add more form fields as needed
+        ],
+      ),
     );
   }
 }

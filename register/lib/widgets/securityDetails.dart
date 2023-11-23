@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
 import 'package:flutter/material.dart';
 
 class SecurityDetails extends StatefulWidget {
@@ -34,15 +36,13 @@ class _SecurityDetailsState extends State<SecurityDetails> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      
       children: [
-        Text(
-          'Security Details',
-          style: TextStyle(fontSize: 24.0),
-        ),
+        const SizedBox(height: 16.0,), 
         TextFormField(
           controller: passwordController,
           obscureText: true,
-          decoration: InputDecoration(labelText: 'Password'),
+          decoration: const InputDecoration(labelText: 'Password'),
           onChanged: (value) {
             // Add your validation logic if needed
            widget.onFieldChanged('password',value);
@@ -51,29 +51,29 @@ class _SecurityDetailsState extends State<SecurityDetails> {
         TextFormField(
           controller: confirmPasswordController,
           obscureText: true,
-          decoration: InputDecoration(labelText: 'Confirm Password'),
+          decoration: const InputDecoration(labelText: 'Confirm Password'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('confirmPassword', value);
           },
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         TextFormField(
           controller: securityQuestionController,
-          decoration: InputDecoration(labelText: 'Security Question'),
+          decoration: const InputDecoration(labelText: 'Security Question'),
           onChanged: (value) {
             // Add your validation logic if needed
            
             widget.onFieldChanged('securityQuestion', value);
           },
         ),
-  SizedBox(height: 16.0),
+  const SizedBox(height: 16.0),
         ElevatedButton(
           onPressed: () {
             widget.onNext();
           },
-          child: Text('Next'),
+          child: const Text('Next'),
         ),
 
         // Add more form fields as needed
