@@ -1,94 +1,92 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
 class OtherDetails extends StatefulWidget {
-    final GlobalKey<FormState> formKey;
-  final Function(String, double) updateProgressCallback;
-  final Function() submitCallback;
-  final Map<String, double> formData;
+  final Function(String, dynamic) onFieldChanged;
+  final VoidCallback onNext;
+  final Map<String, String> formData;
 
-  const OtherDetails({
-    Key? key,
-    required this.formKey,
-    required this.updateProgressCallback,
-    required this.submitCallback,
-    required this.formData,
+  const OtherDetails({Key? key, 
+  required this.onFieldChanged,
+  required this.onNext
+  ,required this.formData
   }) : super(key: key);
+
   @override
-  State<OtherDetails> createState() => _OtherDetailsState();
+  _OtherDetailsState createState() => _OtherDetailsState();
 }
 
 class _OtherDetailsState extends State<OtherDetails> {
-  final TextEditingController _addressController = TextEditingController();
+  // Add your form fields and related logic here
+  TextEditingController addressController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController zipController = TextEditingController();
+  
   @override
   void initState() {
     super.initState();
-    _addressController.addListener(
-      () => _updateProgress(
-        'address',
-        _isFieldValid(_addressController.text),
-      ),
-    );
+    addressController.text = widget.formData['address']??'';
+    cityController.text = widget.formData['city']??'';
+    stateController.text = widget.formData['state']??'';
+    zipController.text = widget.formData['zip']??'';
   }
-  void _submit() {
-    final form = widget.formKey.currentState;
-
-    if (form != null && form.validate()) {
-      setState(() {
-        widget.formData.forEach((key, value) {
-          widget.formData[key] = 1.0;
-        });
-      });
-      widget.submitCallback();
-    }
-  }
-  double _isFieldValid(String value) {
-    // You can customize this logic based on your validation requirements
-    // For example, you might want to check if the field is not empty and meets certain criteria
-    if (value.isNotEmpty) {
-      return 1.0; // Field is valid
-    } else {
-      return 0.0; // Field is not valid
-    }
-  }
-    void _updateProgress(String fieldName, double progress) {
-    setState(() {
-      widget.formData[fieldName] = progress;
-    });
-    widget.updateProgressCallback(
-        fieldName, progress); // Notify parent widget about progress
-  }
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Form(
-        key: widget.formKey,
-        child: Column(
-        children: [
-          TextFormField(
-            controller: _addressController,
-            onSaved: (newValue) => _addressController.text = newValue!,
-             decoration: const InputDecoration(
-                    labelText: 'Name',
-                    hintText: 'Enter your name',
-                    border: OutlineInputBorder(),
-                    
-                  ),
-                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-          ),
-          ElevatedButton(onPressed: (){
-                  
-                  _submit();
-                }
-
-                , child: const Text('Next'))
-        ],
-      )),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Other Details',
+          style: TextStyle(fontSize: 24.0),
+        ),
+        TextFormField(
+          controller: addressController,
+          decoration: InputDecoration(labelText: 'Address'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('address', value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          controller: cityController,
+          decoration: InputDecoration(labelText: 'City'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('city', value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          controller: stateController,
+          decoration: InputDecoration(labelText: 'State'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('state', value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          controller: zipController,
+          decoration: InputDecoration(labelText: 'Zip'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('zip', value);
+          },
+        ),
+          SizedBox(height: 16.0),
+        ElevatedButton(
+          onPressed: () {
+            widget.onNext();
+          },
+          child: Text('Next'),
+        ),
+        // Add more form fields as needed
+      ],
     );
   }
 }

@@ -1,132 +1,83 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
 class SecurityDetails extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  final Function(String, double) updateProgressCallback;
-  final Function() submitCallback;
-  final Map<String, double> formData;
+  final Function(String, dynamic) onFieldChanged;
+  final VoidCallback onNext;
+  final Map<String, String> formData;
 
-  const SecurityDetails({
-    Key? key,
-    required this.formKey,
-    required this.updateProgressCallback,
-    required this.submitCallback,
-    required this.formData,
-  }) : super(key: key); 
+  const SecurityDetails({Key? key, 
+  required this.onFieldChanged
+  ,required this.onNext,
+  required this.formData}) : super(key: key);
+
+
+
   @override
-  State<SecurityDetails> createState() => _SecurityDetailsState();
+  _SecurityDetailsState createState() => _SecurityDetailsState();
 }
 
 class _SecurityDetailsState extends State<SecurityDetails> {
- 
-  late TextEditingController passwordController;
-  late TextEditingController confirmPasswordController;
-  @override
+  // Add your form fields and related logic here
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController securityQuestionController = TextEditingController();
+
+    @override
   void initState() {
     super.initState();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
-    passwordController.addListener(
-      () => _updateProgress(
-        'password',
-        _isFieldValid(passwordController.text),
-      ),
-    );
-    confirmPasswordController.addListener(
-      () => _updateProgress(
-        'confirmPassword',
-        _isFieldValid(confirmPasswordController.text),
-      ),
-    );
-  }
-
-void _submit() {
-    final form = widget.formKey.currentState;
-
-    if (form != null && form.validate()) {
-      setState(() {
-        widget.formData.forEach((key, value) {
-          widget.formData[key] = 1.0;
-        });
-      });
-      widget.submitCallback();
-    }
-  }
-
-  double _isFieldValid(String value) {
-    // You can customize this logic based on your validation requirements
-    // For example, you might want to check if the field is not empty and meets certain criteria
-    if (value.isNotEmpty) {
-      return 1.0; // Field is valid
-    } else {
-      return 0.0; // Field is not valid
-    }
-  }
-
-  void _updateProgress(String fieldName, double progress) {
-    setState(() {
-      widget.formData[fieldName] = progress;
-      
-    });
-    widget.updateProgressCallback(
-        fieldName, progress);
-         // Notify parent widget about progress
+    passwordController.text = widget.formData['password']??'';
+    confirmPasswordController.text = widget.formData['confirmPassword']??'';
+    securityQuestionController.text = widget.formData['securityQuestion']??'';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: passwordController,
-            onChanged: (value) => _updateProgress(
-              'password',
-              _isFieldValid(value),
-            ),
-            obscureText: true,
-            obscuringCharacter: '*',
-            enableSuggestions: false,
-            onSaved: (newValue) => passwordController.text = newValue!,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Security Details',
+          style: TextStyle(fontSize: 24.0),
+        ),
+        TextFormField(
+          controller: passwordController,
+          obscureText: true,
+          decoration: InputDecoration(labelText: 'Password'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           widget.onFieldChanged('password',value);
+          },
+        ),
+        TextFormField(
+          controller: confirmPasswordController,
+          obscureText: true,
+          decoration: InputDecoration(labelText: 'Confirm Password'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('confirmPassword', value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          controller: securityQuestionController,
+          decoration: InputDecoration(labelText: 'Security Question'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('securityQuestion', value);
+          },
+        ),
+  SizedBox(height: 16.0),
+        ElevatedButton(
+          onPressed: () {
+            widget.onNext();
+          },
+          child: Text('Next'),
+        ),
 
-            decoration: const InputDecoration(
-              labelText: 'Password',
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: confirmPasswordController,
-            onChanged: (value) => _updateProgress(
-              'confirmPassword',
-              _isFieldValid(value),
-            ),
-            obscureText: true,
-            obscuringCharacter: '*',
-            onSaved: (newValue) => confirmPasswordController.text = newValue!,
-            decoration: const InputDecoration(
-              labelText: 'Confirm Password',
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please confirm your password';
-              }
-              return null;
-            },
-          ),
-          ElevatedButton(
-            onPressed: () => _submit(),
-            child: const Text('Next'),
-          ),
-        ],
-      ),
+        // Add more form fields as needed
+      ],
     );
   }
 }

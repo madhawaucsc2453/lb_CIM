@@ -16,41 +16,25 @@ class CustomStepper extends StatefulWidget {
 class _CustomStepperState extends State<CustomStepper> {
   int _currentIndex = 0;
   final PageController _pageController = PageController();
- 
-  final Map<int, Map<String, double>> _formCompletion = {
-    0: {
-      'firstName': 0.0,
-      'lastName': 0.0,
-    },
-    1: {'password': 0.0, 'confirmPassword': 0.0},
-    2: {'address': 0.0, },
+
+  final Map<int, Map<String, String>> _formData = {
+    0: {'firstName': '', 'lastName': '', 'email': '', 'phone': ''},
+    1: {'password': '', 'confirmPassword': '', 'securityQuestion': ''},
+    2: {'address': '', 'city': '', 'state': '', 'zip': ''},
   };
 
-
-  final Map<int, GlobalKey<FormState>> _formKeys = {
-    0: GlobalKey<FormState>(),
-    1: GlobalKey<FormState>(),
-    2: GlobalKey<FormState>(),
-  };
   double calculatePageProgress(int index) {
-    int totalFields = _formCompletion[index]?.length ?? 0;
-    double filledFields =
-        _formCompletion[index]?.values.reduce((a, b) => a + b) ?? 0.0;
+    int totalFields = _formData[index]?.length ?? 0;
+    double filledFields = 0;
+    if(totalFields > 0){
+      _formData[index]?.forEach((key, value) {
+        if (value.isNotEmpty) {
+          filledFields += 1;
+        }
+      });
+    }
 
     return totalFields > 0 ? filledFields / totalFields : 0.0;
-  }
-
-  void _submit() {
-    final form = _formKeys[_currentIndex]?.currentState;
-
-    if (form != null && form.validate()) {
-      setState(() {
-        _formCompletion[_currentIndex]?.forEach((key, value) {
-          _formCompletion[_currentIndex]?[key] = 1.0;
-        });
-      });
-      _goToPage(_currentIndex + 1);
-    }
   }
 
   void _goToPage(
@@ -62,10 +46,16 @@ class _CustomStepperState extends State<CustomStepper> {
     _pageController.jumpToPage(pageIndex);
   }
 
-  void _updateProgress(int index, String field, double progress) {
+  void _updateProgress(int index, String field, dynamic value) {
     setState(() {
-      _formCompletion[index]?[field] = progress;
+      _formData[index]?[field] = value;
     });
+  }
+
+  void _onNext() {
+    if (_currentIndex < 2) {
+      _goToPage(_currentIndex + 1);
+    }
   }
 
   @override
@@ -148,25 +138,22 @@ class _CustomStepperState extends State<CustomStepper> {
   Widget _buildDetailsWidget(int index, BoxConstraints constraints) {
     final detailsWidgets = [
       CustomerDetails(
-        formKey: _formKeys[index]!,
-        updateProgressCallback: (field, progress) =>
+        onFieldChanged: (field, progress) =>
             _updateProgress(index, field, progress),
-        submitCallback: () => _submit(),
-        formData: _formCompletion[index]!,
+        onNext: _onNext,
+        formData: _formData[index]??{},
       ),
       SecurityDetails(
-        formKey: _formKeys[index]!,
-        updateProgressCallback: (field, progress) =>
+        onFieldChanged: (field, progress) =>
             _updateProgress(index, field, progress),
-        submitCallback: () => _submit(),
-        formData: _formCompletion[index]!,
+        onNext: _onNext,
+        formData: _formData[index]??{},
       ),
       OtherDetails(
-        formKey: _formKeys[index]!,
-        updateProgressCallback: (field, progress) =>
+        onFieldChanged: (field, progress) =>
             _updateProgress(index, field, progress),
-        submitCallback: () => _submit(),
-        formData: _formCompletion[index]!,
+        onNext: _onNext,
+        formData: _formData[index]??{},
       ),
     ];
 

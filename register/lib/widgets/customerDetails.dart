@@ -1,147 +1,83 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
 class CustomerDetails extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  final Function(String, double) updateProgressCallback;
-  final Function() submitCallback;
-  final Map<String, double> formData;
-  
+  final Function(String, dynamic) onFieldChanged;
+  final VoidCallback onNext;
+  final Map<String, String> formData;
 
-  
-
-  const CustomerDetails({
-    Key? key,
-    required this.formKey,
-    required this.updateProgressCallback,
-    required this.submitCallback,
-    required this.formData,
+  const CustomerDetails({Key? key, required this.onFieldChanged
+  ,required this.onNext,
+  required this.formData
   }) : super(key: key);
 
   @override
-  State<CustomerDetails> createState() => _CustomerDetailsState();
+  _CustomerDetailsState createState() => _CustomerDetailsState();
 }
 
 class _CustomerDetailsState extends State<CustomerDetails> {
-
-
-  late TextEditingController firstNameController;
-  late TextEditingController lastNameController;
-  late TextEditingController emailController;
-  late TextEditingController phoneController;
-
+  // Add your form fields and related logic here
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-  
-    
-    
-    firstNameController.addListener(
-      () => _updateProgress(
-        'firstName',
-        _isFieldValid(firstNameController.text),
-      ),
-    );
-    lastNameController.addListener(
-      () => _updateProgress(
-        'lastName',
-        _isFieldValid(lastNameController.text),
-      ),
-    );
-
+    firstNameController.text = widget.formData['firstName']??'';
+    lastNameController.text = widget.formData['lastName']??'';
+    emailController.text = widget.formData['email']??'';
+    phoneController.text = widget.formData['phone']??'';
   }
-  @override
-void dispose() {
-  firstNameController.dispose();
-  lastNameController.dispose();
-
-  super.dispose();
-}
-
-  double _isFieldValid(String value) {
-    if (value.isNotEmpty) {
-      return 1.0; // Field is valid
-    } else {
-      return 0.0; // Field is not valid
-    }
-  }
-
-  void _updateProgress(String fieldName, double progress) {
-    setState(() {
-      widget.formData[fieldName] = progress;
-
-    });
-    widget.updateProgressCallback(fieldName, progress);
-  }
-void _submit() {
-    final form = widget.formKey.currentState;
-
-    if (form != null && form.validate()) {
-      setState(() {
-        widget.formData.forEach((key, value) {
-          widget.formData[key] = value;
-        });
-      });
-      widget.submitCallback();
-    }
-  }
-  
-
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            controller: firstNameController,
-            
-            decoration: const InputDecoration(
-              labelText: 'First Name',
-
-            ),
-            onSaved: (newValue) => firstNameController.text = newValue!,
-            onChanged: (value) => _updateProgress(
-              'firstName',
-              _isFieldValid(firstNameController.text),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your first name';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            controller: lastNameController,
-            
-            decoration: const InputDecoration(
-              labelText: 'Last Name',
-            ),
-            onSaved: (newValue) => lastNameController.text = newValue!,
-
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your last name';
-              }
-              return null;
-            },
-          ),
-        
-       
-          const Padding(padding: EdgeInsets.only(top: 50)),
-          ElevatedButton(
-            onPressed: (){
-              _submit();
-            } 
-            ,
-            child: const Text('Next'),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Customer Details',
+          style: TextStyle(fontSize: 24.0),
+        ),
+        TextFormField(
+          controller: firstNameController,
+          decoration: InputDecoration(labelText: 'First Name'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+           
+            widget.onFieldChanged('firstName',value);
+          },
+        ),
+        TextFormField(
+          controller: lastNameController,
+          decoration: InputDecoration(labelText: 'Last Name'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+            widget.onFieldChanged('lastName',value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          decoration: InputDecoration(labelText: 'Email'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+            widget.onFieldChanged('email',value);
+          },
+        ),
+        SizedBox(height: 16.0),
+        TextFormField(
+          decoration: InputDecoration(labelText: 'Phone'),
+          onChanged: (value) {
+            // Add your validation logic if needed
+            widget.onFieldChanged('phone',value);
+          }),
+           SizedBox(height: 16.0),
+        ElevatedButton(
+          onPressed: () {
+            widget.onNext();
+          },
+          child: Text('Next'),
+        ),
+        // Add more form fields as needed
+      ],
     );
   }
 }
