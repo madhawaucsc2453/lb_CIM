@@ -135,12 +135,6 @@ class _CustomStepperState extends State<CustomStepper> {
                                     // Content for each page
                                     _buildPageContent(index, constraints),
                                         
-                                    Text(
-                                      'Progress: ${calculatePageProgress(index) * 100}%',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),

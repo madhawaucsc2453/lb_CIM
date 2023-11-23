@@ -68,7 +68,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
             onChanged: (value) {
               widget.onFieldChanged('phone',value);
             }),
-             const SizedBox(height: 16.0),
+             const SizedBox(height: 30.0),
           ElevatedButton(
             onPressed: () {
               widget.onNext();
