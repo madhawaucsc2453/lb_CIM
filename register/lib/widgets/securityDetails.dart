@@ -19,7 +19,7 @@ class SecurityDetails extends StatefulWidget {
 }
 
 class _SecurityDetailsState extends State<SecurityDetails> {
-  // Add your form fields and related logic here
+  
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController securityQuestionController = TextEditingController();
@@ -44,7 +44,7 @@ class _SecurityDetailsState extends State<SecurityDetails> {
           obscureText: true,
           decoration: const InputDecoration(labelText: 'Password'),
           onChanged: (value) {
-            // Add your validation logic if needed
+           
            widget.onFieldChanged('password',value);
           },
         ),
@@ -53,7 +53,6 @@ class _SecurityDetailsState extends State<SecurityDetails> {
           obscureText: true,
           decoration: const InputDecoration(labelText: 'Confirm Password'),
           onChanged: (value) {
-            // Add your validation logic if needed
            
             widget.onFieldChanged('confirmPassword', value);
           },
@@ -63,7 +62,7 @@ class _SecurityDetailsState extends State<SecurityDetails> {
           controller: securityQuestionController,
           decoration: const InputDecoration(labelText: 'Security Question'),
           onChanged: (value) {
-            // Add your validation logic if needed
+            
            
             widget.onFieldChanged('securityQuestion', value);
           },
@@ -76,7 +75,7 @@ class _SecurityDetailsState extends State<SecurityDetails> {
           child: const Text('Next'),
         ),
 
-        // Add more form fields as needed
+      
       ],
     );
   }

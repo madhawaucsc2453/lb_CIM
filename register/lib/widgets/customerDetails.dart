@@ -75,7 +75,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
             },
             child: const Text('Next'),
           ),
-          // Add more form fields as needed
+         
         ],
       ),
     );

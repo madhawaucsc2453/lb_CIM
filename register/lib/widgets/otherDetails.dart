@@ -18,7 +18,7 @@ class OtherDetails extends StatefulWidget {
 }
 
 class _OtherDetailsState extends State<OtherDetails> {
-  // Add your form fields and related logic here
+ 
   TextEditingController addressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
@@ -42,7 +42,7 @@ class _OtherDetailsState extends State<OtherDetails> {
           controller: addressController,
           decoration: const InputDecoration(labelText: 'Address'),
           onChanged: (value) {
-            // Add your validation logic if needed
+            
            
             widget.onFieldChanged('address', value);
           },
@@ -52,7 +52,7 @@ class _OtherDetailsState extends State<OtherDetails> {
           controller: cityController,
           decoration: const InputDecoration(labelText: 'City'),
           onChanged: (value) {
-            // Add your validation logic if needed
+         
            
             widget.onFieldChanged('city', value);
           },
@@ -62,7 +62,7 @@ class _OtherDetailsState extends State<OtherDetails> {
           controller: stateController,
           decoration: const InputDecoration(labelText: 'State'),
           onChanged: (value) {
-            // Add your validation logic if needed
+           
            
             widget.onFieldChanged('state', value);
           },
@@ -72,7 +72,7 @@ class _OtherDetailsState extends State<OtherDetails> {
           controller: zipController,
           decoration: const InputDecoration(labelText: 'Zip'),
           onChanged: (value) {
-            // Add your validation logic if needed
+           
            
             widget.onFieldChanged('zip', value);
           },
@@ -84,7 +84,7 @@ class _OtherDetailsState extends State<OtherDetails> {
           },
           child: const Text('Next'),
         ),
-        // Add more form fields as needed
+       
       ],
     );
   }

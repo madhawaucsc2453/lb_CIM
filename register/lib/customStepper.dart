@@ -90,7 +90,7 @@ class _CustomStepperState extends State<CustomStepper> {
                   height: 10,
                 ),
                 Center(
-                  //set index name
+                
                   child: Text(
                     _pageTitles[_currentIndex],
                     style: const TextStyle(
@@ -135,7 +135,7 @@ class _CustomStepperState extends State<CustomStepper> {
                               child: Center(
                                 child: Column(
                                   children: [
-                                    // Content for each page
+                                    
                                     _buildPageContent(index, constraints),
                                         
                                   ],
