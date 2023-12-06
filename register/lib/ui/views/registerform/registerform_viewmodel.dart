@@ -27,6 +27,7 @@ final Map<int,Map<String, String>> pageData={
     'password':'',
     'confirmPassword':'',
     'securityQuestion':'',
+    'securityAnswer':'',
   },
   2:{
     'address':'',
@@ -52,6 +53,7 @@ final Map<int,Map<String, String>> pageData={
   void updateProgress( int index,String field, dynamic value){
     pageData[index]![field]=value;
     notifyListeners();
+
   }
 
   double progressCalculate(int index){
