@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:register/customStepper.dart';
+import 'package:register/app/app.locator.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:register/app/app.router.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
+  
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
-      title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
-      home: const CustomStepper(),
-    
+      initialRoute: Routes.registerformView,
+      onGenerateRoute: StackedRouter().onGenerateRoute,
+      navigatorKey: StackedService.navigatorKey,
+      navigatorObservers: [
+        StackedService.routeObserver,
+      ],
     );
   }
 }
