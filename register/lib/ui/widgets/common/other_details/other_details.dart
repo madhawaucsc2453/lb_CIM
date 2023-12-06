@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-
-
 import 'other_details_model.dart';
 
 class OtherDetails extends StackedView<OtherDetailsModel> {
-  
   final Function(String, dynamic) onFieldChanged;
   final Function() onNext;
-  final Map<int,Map<String, String>> formData;
+  final Map<int, Map<String, String>> formData;
   const OtherDetails(
       {Key? key,
       required this.onFieldChanged,
@@ -25,6 +22,7 @@ class OtherDetails extends StackedView<OtherDetailsModel> {
     viewModel.zipController.text = formData[2]!['zip']!;
     super.onViewModelReady(viewModel);
   }
+
   @override
   Widget builder(
     BuildContext context,
@@ -49,12 +47,10 @@ class OtherDetails extends StackedView<OtherDetailsModel> {
               'address',
               value,
             ),
-
-            ),
+          ),
           const SizedBox(
             height: 16,
           ),
-
           TextFormField(
             controller: viewModel.cityController,
             decoration: const InputDecoration(
@@ -97,28 +93,28 @@ class OtherDetails extends StackedView<OtherDetailsModel> {
               value,
             ),
           ),
-        
           const SizedBox(
             height: 16,
           ),
           ElevatedButton(
-            onPressed:
-                viewModel.isFormValid ? ()=>viewModel.submit(formData) : 
-                viewModel.isAddressValid && viewModel.isCityValid && viewModel.isStateValid && viewModel.isZipValid ? ()=>ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Successfully Registered'),
-                  ),
-                ):()=>ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please fill all the fields'),
-                  ),
-                ),
-                
-                
+            onPressed: viewModel.isFormValid
+                ? () => viewModel.submit(formData)
+                : viewModel.isAddressValid &&
+                        viewModel.isCityValid &&
+                        viewModel.isStateValid &&
+                        viewModel.isZipValid
+                    ? () => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Successfully Registered'),
+                          ),
+                        )
+                    : () => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill all the fields'),
+                          ),
+                        ),
             child: const Text('Submit'),
           ),
-
-
         ],
       ),
     );
@@ -128,7 +124,5 @@ class OtherDetails extends StackedView<OtherDetailsModel> {
   OtherDetailsModel viewModelBuilder(
     BuildContext context,
   ) =>
-      OtherDetailsModel(
-       
-      );
+      OtherDetailsModel();
 }

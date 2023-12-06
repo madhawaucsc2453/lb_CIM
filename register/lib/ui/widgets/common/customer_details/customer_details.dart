@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'customer_details_model.dart';
 
 class CustomerDetails extends StackedView<CustomerDetailsModel> {
-  final Map<int,Map<String, String>> formData;
+  final Map<int, Map<String, String>> formData;
   final void Function(String, dynamic) onFieldChanged;
   final void Function() onNext;
   const CustomerDetails(
@@ -15,9 +14,6 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
       required this.formData})
       : super(key: key);
 
-  
-
-  
   @override
   void onViewModelReady(CustomerDetailsModel viewModel) {
     viewModel.firstNameController.text = formData[0]!['firstName']!;
@@ -26,8 +22,6 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
     viewModel.phoneController.text = formData[0]!['phone']!;
     super.onViewModelReady(viewModel);
   }
-
-  
 
   @override
   Widget builder(
@@ -53,13 +47,13 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
               'firstName',
               value,
             ),
-            validator: viewModel.isFirstNameValid ? null : (value) => 'First Name is required',
-
-            ),
+            validator: viewModel.isFirstNameValid
+                ? null
+                : (value) => 'First Name is required',
+          ),
           const SizedBox(
             height: 16,
           ),
-
           TextFormField(
             controller: viewModel.lastNameController,
             decoration: const InputDecoration(
@@ -71,13 +65,15 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
               'lastName',
               value,
             ),
-            validator: viewModel.isLastNameValid ? null : (value) => 'Last Name is required',
+            validator: viewModel.isLastNameValid
+                ? null
+                : (value) => 'Last Name is required',
           ),
           const SizedBox(
             height: 16,
           ),
           TextFormField(
-            controller:viewModel.emailController,
+            controller: viewModel.emailController,
             decoration: const InputDecoration(
               labelText: 'Email',
               hintText: 'Enter your email',
@@ -87,7 +83,8 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
               'email',
               value,
             ),
-            validator: viewModel.isEmailValid ? null : (value) => 'Email is required',
+            validator:
+                viewModel.isEmailValid ? null : (value) => 'Email is required',
           ),
           const SizedBox(
             height: 16,
@@ -103,29 +100,32 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
               'phone',
               value,
             ),
-            validator: viewModel.isPhoneValid ? null : (value) => 'Phone Number is required',
+            validator: viewModel.isPhoneValid
+                ? null
+                : (value) => 'Phone Number is required',
           ),
           const SizedBox(
             height: 16,
           ),
           ElevatedButton(
-          onPressed: viewModel.isFormValid ? onNext : 
-          viewModel.isFirstNameValid && viewModel.isLastNameValid && viewModel.isEmailValid ? () => ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Phone Number is required'),
-            ),
-          ) : () => ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('First Name, Last Name and Email are required'),
-            ),
-          ),
-          
-
+            onPressed: viewModel.isFormValid
+                ? onNext
+                : viewModel.isFirstNameValid &&
+                        viewModel.isLastNameValid &&
+                        viewModel.isEmailValid
+                    ? () => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Phone Number is required'),
+                          ),
+                        )
+                    : () => ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'First Name, Last Name and Email are required'),
+                          ),
+                        ),
             child: const Text('Next'),
-
           ),
-
-
         ],
       ),
     );
@@ -135,6 +135,5 @@ class CustomerDetails extends StackedView<CustomerDetailsModel> {
   CustomerDetailsModel viewModelBuilder(
     BuildContext context,
   ) =>
-      CustomerDetailsModel(
-      );
+      CustomerDetailsModel();
 }

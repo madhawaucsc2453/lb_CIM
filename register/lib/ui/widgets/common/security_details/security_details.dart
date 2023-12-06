@@ -136,6 +136,7 @@ class SecurityDetails extends StackedView<SecurityDetailsModel> {
           ),
             TextFormField(
             controller:viewModel.securityAnswerController,
+            
             decoration: const InputDecoration(
               labelText: 'Answer',
               hintText: 'Enter your Answer',
@@ -145,6 +146,9 @@ class SecurityDetails extends StackedView<SecurityDetailsModel> {
               'securityAnswer',
               value,
             ),
+          
+              
+            
           ),
 
           const SizedBox(
