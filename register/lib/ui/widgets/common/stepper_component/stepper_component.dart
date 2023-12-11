@@ -95,7 +95,7 @@ class StepperComponent extends StackedView<StepperComponentModel> {
                                   ? Colors.white
                                   : currentPageIndex >= index
                                       ? Colors.white
-                                      : Colors.black12,
+                                      : Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
